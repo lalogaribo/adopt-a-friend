@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::API
   include ::ActionController::Cookies
-  # SECRET_KEY = "react_project"
 
   def encode_token(payload = {}, exp = 1.hour.from_now)
     payload[:exp] = exp.to_i
@@ -10,12 +9,6 @@ class ApplicationController < ActionController::API
   def token
     request.headers["Authorization"]
   end
-  #
-  # def authenticate_user
-  #   jwt = cookies.signed[:token]
-  #   token = JWT.decode(jwt, SECRET_KEY, true, algorithm: "HS256")
-  #   token
-  # end
 
   def current_user
     user ||= User.find_by(id: user_id)

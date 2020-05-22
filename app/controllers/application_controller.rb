@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::API
   include ::ActionController::Cookies
-  SECRET_KEY = "react_project"
+  # SECRET_KEY = "react_project"
 
   def encode_token(payload = {}, exp = 1.hour.from_now)
     payload[:exp] = exp.to_i
-    JWT.encode(payload, SECRET_KEY)
+    JWT.encode(payload, ENV['SECRET_KEY'])
   end
 
   def token
@@ -28,7 +28,7 @@ class ApplicationController < ActionController::API
   def decode_token
     jwt = cookies.signed[:token]
     begin
-      JWT.decode(jwt, SECRET_KEY, true, algorithm: "HS256")
+      JWT.decode(jwt, ENV['SECRET_KEY'], true, algorithm: "HS256")
     rescue JWT::DecodeError
       [{}]
     end

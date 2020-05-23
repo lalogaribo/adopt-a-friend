@@ -14,6 +14,10 @@ class ApplicationController < ActionController::API
     user ||= User.find_by(id: user_id)
   end
 
+  def current_shelter
+    shelter ||= Shelter.find_by(id: shelter_id)
+  end
+
   def send_token(token)
     cookies.signed[:token] = {value: token, httponly: true, expires: 1.hour.from_now}
   end
@@ -31,11 +35,23 @@ class ApplicationController < ActionController::API
     decode_token.first["user_id"]
   end
 
+  def shelter_id
+    decode_token.first["shelter_id"]
+  end
+
   def logged_in?
     !!current_user
   end
 
+  def shelter_logged?
+    !!current_shelter
+  end
+
   def authorized
     render json: {message: 'Please log in'}, status: :unauthorized unless logged_in?
+  end
+
+  def authorized_shelter
+    render json: {message: 'Please log in'}, status: :unauthorized unless shelter_logged?
   end
 end

@@ -9,7 +9,9 @@ class Api::V1::SheltersController < ApplicationController
   def create
     shelter = Shelter.create(shelter_params)
     if shelter.valid?
-      render json: {data: shelter}, status: :ok
+      token = encode_token({shelter_id: shelter.id})
+      send_token(token)
+      render json: {data: shelter}, status: :created
     else
       render json: {errors: shelter.errors.full_messages}, status: :bad_request
     end
@@ -31,7 +33,8 @@ class Api::V1::SheltersController < ApplicationController
   private
 
   def shelter_params
-    params.require(:shelter).permit(:name, :location, :phone_number)
+    params.require(:shelter).permit(:name, :location, :phone_number,
+                                    :password, :password_confirmation, :email)
   end
 
   def find_shelter

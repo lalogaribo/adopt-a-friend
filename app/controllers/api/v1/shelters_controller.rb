@@ -8,7 +8,6 @@ class Api::V1::SheltersController < ApplicationController
 
   def create
     shelter = Shelter.create(shelter_params)
-    byebug
     if shelter.valid?
       token = encode_token({shelter_id: shelter.id})
       send_token(token)

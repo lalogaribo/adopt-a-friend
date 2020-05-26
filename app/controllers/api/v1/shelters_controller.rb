@@ -8,6 +8,7 @@ class Api::V1::SheltersController < ApplicationController
 
   def create
     shelter = Shelter.create(shelter_params)
+    byebug
     if shelter.valid?
       token = encode_token({shelter_id: shelter.id})
       send_token(token)
@@ -33,8 +34,7 @@ class Api::V1::SheltersController < ApplicationController
   private
 
   def shelter_params
-    params.require(:shelter).permit(:name, :location, :phone_number,
-                                    :password, :password_confirmation, :email)
+    params.require(:shelter).permit(:name, :location, :phone_number, :password, :email)
   end
 
   def find_shelter

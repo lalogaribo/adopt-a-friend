@@ -11,7 +11,8 @@ class Api::V1::SheltersController < ApplicationController
     if shelter.valid?
       token = encode_token({shelter_id: shelter.id})
       send_token(token)
-      render json: {data: shelter}, status: :created
+      serialized_response = ShelterSerializer.new(shelter)
+      render json: {data: serialized_response}, status: :created
     else
       render json: {errors: shelter.errors.full_messages}, status: :bad_request
     end

@@ -1,7 +1,7 @@
 class Api::V1::PetsController < ApplicationController
   before_action :set_shelter, except: [:index]
   before_action :find_pet, only: [:adopt_me, :show]
-  before_action :current_shelter, only: [:update]
+  before_action :current_shelterr, only: [:update]
 
   def index
     if params[:shelter_id]
@@ -15,10 +15,11 @@ class Api::V1::PetsController < ApplicationController
   end
 
   def create
-    pet = @shelter.pets.build(pets_params)
+    pet = current_shelter.pets.build(pets_params)
     if pet.valid?
       pet.save
-      render json: {data: pet}, status: :created
+      serialized_response = PetSerializer.new(pet)
+      render json: {data: serialized_response}, status: :created
     else
       render json: {errors: pet.errors.full_messages}, status: :bad_request
     end
@@ -65,7 +66,7 @@ are ready for some awesome adventures"}, status: :ok
     render json: {error: "#{@pet.name} was already adopted"}
   end
 
-  def current_shelter
+  def current_shelterr
     pet_id = params[:pet_id] || params[:id]
     @pet = Pet.find(pet_id)
     render json: {message: 'Only assigned shelter is able to edit'} unless logged_in? && @shelter.id === @pet.shelter_id

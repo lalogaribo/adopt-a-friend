@@ -1,5 +1,6 @@
 class Pet < ApplicationRecord
   belongs_to :shelter
+  # belongs_to :user
   validates :name, presence: true
   validates :shelter_id, presence: true
   validates :breed, :animal_type, presence: true

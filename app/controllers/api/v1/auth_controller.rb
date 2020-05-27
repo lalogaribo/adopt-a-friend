@@ -6,7 +6,8 @@ class Api::V1::AuthController < ApplicationController
     if user && user.authenticate(login_params[:password])
       token = encode_token({user_id: user.id})
       send_token(token)
-      render json: {message: 'Loged in'}, status: :accepted
+      serialized_response = UserSerializer.new(user)
+      render json: {message: 'Loged in', data: serialized_response}, status: :accepted
     else
       render json: {message: 'Invalid username or password'}, status: :unauthorized
     end

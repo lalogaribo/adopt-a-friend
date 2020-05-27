@@ -2,9 +2,10 @@ class Api::V1::UsersController < ApplicationController
   def create
     user = User.create(user_params)
     if user.valid?
-      token = encode_token({ user_id: user.id })
+      token = encode_token({user_id: user.id})
       send_token(token)
-      render json: { user: user }, status: :created
+      serialized_response = UserSerializer.new(user)
+      render json: {data: serialized_response}, status: :created
     else
       render json: { errors: user.errors.full_messages }, status: :not_acceptable
     end

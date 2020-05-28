@@ -34,8 +34,7 @@ class Api::V1::SheltersController < ApplicationController
   private
 
   def shelter_params
-    params.require(:shelter).permit(:name, :location, :phone_number,
-                                    :password, :password_confirmation, :email)
+    params.require(:shelter).permit(:name, :location, :phone_number, :password, :email)
   end
 
   def find_shelter

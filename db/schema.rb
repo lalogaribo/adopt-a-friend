@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_194119) do
     t.boolean "is_adopted"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "picture_url"
     t.integer "user_id"
     t.index ["shelter_id"], name: "index_pets_on_shelter_id"
   end

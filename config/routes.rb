@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       resources :users, only: [:create]
       resources :shelters do
         resources :pets do
-          post '/adopt_me', to: 'pets#adopt_me'
+          patch '/adopt_me', to: 'pets#adopt_me'
         end
       end
       resources :pets, only: [:index]

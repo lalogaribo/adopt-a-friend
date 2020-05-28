@@ -53,7 +53,7 @@ class Api::V1::PetsController < ApplicationController
   end
 
   def pets_params
-    params.require(:pet).permit(:name, :breed, :animal_type)
+    params.require(:pet).permit(:name, :breed, :animal_type, :picture_url)
   end
 
   def adopt_pet
